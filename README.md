@@ -11,7 +11,9 @@ This code demonstrates how to setup a [RESTful Web Services] allowing you to cre
 
 ## Structure
 serverless.yml - yaml file to create the serverless infrastructure in AWS for all the operations 
+
 testfile.csv - test data file with laptop configurations and price 
+
 output folder - screenshots of the infrastructure created in AWS
 This service has a separate directory for all the CRUD operations. For each operation exactly one file exists e.g. `reviews/delete.py`. In each of these files there is exactly one function(lambda) defined.
 csv2db.py - reads the laptop listings from csv file stored in S3 and write to DynamoDB table
