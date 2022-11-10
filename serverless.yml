@@ -1,0 +1,107 @@
+service: serverless-laptop-webservice
+
+provider:
+  name: aws
+  runtime: python3.8
+  region: us-west-2
+  profile: default
+  environment:
+    DYNAMODB_TABLE: laptops-listing
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+    - Effect: 'Allow'
+      Action:
+        - 's3:*'
+      Resource:
+        - 'arn:aws:s3:::${self:custom.s3Bucket}/*'
+        #- !Join ['', ['arn:aws:s3:::', !Ref ServerlessDeploymentBucket, '/*']]  
+    - Effect: 'Allow'
+      Action:
+        - 'dynamodb:*'
+      Resource:
+        - arn:aws:dynamodb:${self:provider.region}:${aws:accountId}:table/delta-sales-${sls:stage}
+    - Effect: 'Allow'
+      Action:
+        - 'xray:*'
+      Resource:
+        - '*'
+
+custom:
+  s3Bucket: serverless-laptop-webservice
+
+functions:
+  create:
+    handler: reviews/create.create
+    events:
+      - http:
+          path: reviews
+          method: post
+          cors: true
+
+  list:
+    handler: reviews/list.list
+    events:
+      - http:
+          path: reviews
+          method: get
+          cors: true
+
+  get:
+    handler: reviews/get.get
+    events:
+      - http:
+          path: reviews/{id}
+          method: get
+          cors: true
+
+  update:
+    handler: reviews/update.update
+    events:
+      - http:
+          path: reviews/{id}
+          method: put
+          cors: true
+
+  delete:
+    handler: reviews/delete.delete
+    events:
+      - http:
+          path: reviews/{id}
+          method: delete
+          cors: true
+  csv2db:
+    handler: reviews/csv2db.load
+    environment: 
+      table: laptops-listing
+    events:
+      - s3:
+          bucket: ${self:custom.s3Bucket}
+          event: s3:ObjectCreated:*
+          rules:
+            - suffix: .csv
+resources:
+  Resources:
+    ReviewsDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.DYNAMODB_TABLE}
