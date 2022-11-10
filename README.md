@@ -37,8 +37,11 @@ delete.py - scan the table given the color or memory configuration and delete th
 ## Setup
 
 npm install -g serverless
+
 install python3.9
+
 install aws cli
+
 configure aws cli
 
 ## Deploy
