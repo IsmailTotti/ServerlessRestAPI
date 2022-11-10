@@ -15,12 +15,23 @@ serverless.yml - yaml file to create the serverless infrastructure in AWS for al
 testfile.csv - test data file with laptop configurations and price 
 
 output folder - screenshots of the infrastructure created in AWS
-This service has a separate directory for all the CRUD operations. For each operation exactly one file exists e.g. `reviews/delete.py`. In each of these files there is exactly one function(lambda) defined.
+
+This service has a separate directory for all the CRUD operations. For each operation exactly one file exists 
+
+e.g. `reviews/delete.py`. 
+
+In each of these files there is exactly one function(lambda) defined.
+
 csv2db.py - reads the laptop listings from csv file stored in S3 and write to DynamoDB table
+
 create.py - creates a dynamodb table with the given partition keys and columns. Writes to table when post request is made
+
 get.py - get an item from the table
+
 list.py - scan the table and gets a list of items from the table matching the given color and memory configuration
+
 update.py - given the color, update the field in the table
+
 delete.py - scan the table given the color or memory configuration and delete the entire row.
 
 ## Setup
