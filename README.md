@@ -58,11 +58,20 @@ Deploying serverless-laptop-webservice to stage dev (us-west-2)
 
 endpoints:                                                                                                                                                                    
   POST - https://5frx56psl1.execute-api.us-west-2.amazonaws.com/dev/reviews
-  GET - https://5frx56psl1.execute-api.us-west-2.amazonaws.com/dev/reviews
+  
+  
+ GET - https://5frx56psl1.execute-api.us-west-2.amazonaws.com/dev/reviews
+
 functions:
-  create: serverless-laptop-webservice-dev-create (7.4 kB)
-  list: serverless-laptop-webservice-dev-list (7.4 kB)
-  get: serverless-laptop-webservice-dev-get (7.4 kB)
-  update: serverless-laptop-webservice-dev-update (7.4 kB)
-  delete: serverless-laptop-webservice-dev-delete (7.4 kB)
-  csv2db: serverless-laptop-webservice-dev-csv2db (7.4 kB)
+
+create: serverless-laptop-webservice-dev-create (7.4 kB)
+
+list: serverless-laptop-webservice-dev-list (7.4 kB)
+
+get: serverless-laptop-webservice-dev-get (7.4 kB)
+
+update: serverless-laptop-webservice-dev-update (7.4 kB)
+
+delete: serverless-laptop-webservice-dev-delete (7.4 kB)
+
+csv2db: serverless-laptop-webservice-dev-csv2db (7.4 kB)
